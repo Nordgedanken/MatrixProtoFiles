@@ -40,9 +40,9 @@ message OldVerifyKey {
 }
 
 message Signature {
-    required server_name = 1;
-    required type = 2;
-    required signature = 3;
+    required string server_name = 1;
+    required string type = 2;
+    required string signature = 3;
 }
 
 message TlsFingerprint {
