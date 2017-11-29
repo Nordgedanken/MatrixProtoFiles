@@ -1,8 +1,9 @@
 syntax = "proto3";
 package matrixProtos_Server;
 
-service VersionsService {
+service FederationService {
     rpc Versions (VersionRequest) returns (VersionsResponse);
+    rpc Keys (KeyRequest) returns (KeyResponse);
 }
 
 message VersionRequest {
@@ -15,10 +16,6 @@ message VersionsResponse {
 message Version {
     string name = 1;
     string version = 2;
-}
-
-service KeyService {
-    rpc Keys (KeyRequest) returns (KeyResponse);
 }
 
 message KeyRequest {
