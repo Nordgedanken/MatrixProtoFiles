@@ -1,0 +1,18 @@
+syntax = "proto3";
+package matrixProtos_Server;
+
+service VersionsService {
+    rpc Versions (VersionRequest) returns (VersionsResponse);
+}
+
+message VersionsResponse {
+    repeated Version versions = 1;
+}
+
+message Version {
+    string name = 1;
+    string version = 2;
+}
+
+message VersionRequest {
+}
