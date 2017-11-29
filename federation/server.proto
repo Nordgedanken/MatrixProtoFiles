@@ -16,3 +16,22 @@ message Version {
 
 message VersionRequest {
 }
+
+message OldVerifyKeys {
+    repeated OldVerifyKey old_verify_keys = 1;
+}
+
+message OldVerifyKey {
+    required string type = 1;
+    required int64  expiredTS = 2;
+    required string key = 3;
+}
+
+message VerifyKey {
+    required string type = 1;
+    required string key = 3;
+}
+
+message TlsFingerprint {
+    
+}
