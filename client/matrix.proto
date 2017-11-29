@@ -1,5 +1,5 @@
 syntax = "proto3";
-package matrixProtos;
+package matrixProtos_Client;
 
 service VersionsService {
     rpc Versions (VersionRequest) returns (VersionsResponse);
