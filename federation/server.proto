@@ -5,6 +5,9 @@ service VersionsService {
     rpc Versions (VersionRequest) returns (VersionsResponse);
 }
 
+message VersionRequest {
+}
+
 message VersionsResponse {
     repeated Version versions = 1;
 }
@@ -14,11 +17,20 @@ message Version {
     string version = 2;
 }
 
-message VersionRequest {
+service KeyService {
+    rpc Keys (KeyRequest) returns (KeyResponse);
 }
 
-message OldVerifyKeys {
+message KeyRequest {
+}
+
+message KeyResponse {
     repeated OldVerifyKey old_verify_keys = 1;
+    string server_name = 2;
+    repeated Signature signatures = 3;
+    repeated TlsFingerprint tls_fingerprints = 4;
+    int64 valid_until_ts = 5;
+    repeated VerifyKey verify_keys = 5;
 }
 
 message OldVerifyKey {
@@ -27,11 +39,17 @@ message OldVerifyKey {
     required string key = 3;
 }
 
-message VerifyKey {
-    required string type = 1;
-    required string key = 3;
+message Signature {
+    required server_name = 1;
+    required type = 2;
+    required signature = 3;
 }
 
 message TlsFingerprint {
-    
+    required string sha256 = 1;
+}
+
+message VerifyKey {
+    required string type = 1;
+    required string key = 3;
 }
