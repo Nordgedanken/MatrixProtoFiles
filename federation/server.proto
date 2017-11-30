@@ -27,7 +27,7 @@ message KeyResponse {
     repeated Signature signatures = 3;
     repeated TlsFingerprint tls_fingerprints = 4;
     int64 valid_until_ts = 5;
-    repeated VerifyKey verify_keys = 5;
+    repeated VerifyKey verify_keys = 6;
 }
 
 message OldVerifyKey {
