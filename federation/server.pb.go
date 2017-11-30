@@ -24,6 +24,11 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -261,6 +266,111 @@ func init() {
 	proto.RegisterType((*Signature)(nil), "matrixProtos_Server.Signature")
 	proto.RegisterType((*TlsFingerprint)(nil), "matrixProtos_Server.TlsFingerprint")
 	proto.RegisterType((*VerifyKey)(nil), "matrixProtos_Server.VerifyKey")
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for FederationService service
+
+type FederationServiceClient interface {
+	Versions(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionsResponse, error)
+	Keys(ctx context.Context, in *KeyRequest, opts ...grpc.CallOption) (*KeyResponse, error)
+}
+
+type federationServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewFederationServiceClient(cc *grpc.ClientConn) FederationServiceClient {
+	return &federationServiceClient{cc}
+}
+
+func (c *federationServiceClient) Versions(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionsResponse, error) {
+	out := new(VersionsResponse)
+	err := grpc.Invoke(ctx, "/matrixProtos_Server.FederationService/Versions", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *federationServiceClient) Keys(ctx context.Context, in *KeyRequest, opts ...grpc.CallOption) (*KeyResponse, error) {
+	out := new(KeyResponse)
+	err := grpc.Invoke(ctx, "/matrixProtos_Server.FederationService/Keys", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for FederationService service
+
+type FederationServiceServer interface {
+	Versions(context.Context, *VersionRequest) (*VersionsResponse, error)
+	Keys(context.Context, *KeyRequest) (*KeyResponse, error)
+}
+
+func RegisterFederationServiceServer(s *grpc.Server, srv FederationServiceServer) {
+	s.RegisterService(&_FederationService_serviceDesc, srv)
+}
+
+func _FederationService_Versions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FederationServiceServer).Versions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matrixProtos_Server.FederationService/Versions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FederationServiceServer).Versions(ctx, req.(*VersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FederationService_Keys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FederationServiceServer).Keys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matrixProtos_Server.FederationService/Keys",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FederationServiceServer).Keys(ctx, req.(*KeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _FederationService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "matrixProtos_Server.FederationService",
+	HandlerType: (*FederationServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Versions",
+			Handler:    _FederationService_Versions_Handler,
+		},
+		{
+			MethodName: "Keys",
+			Handler:    _FederationService_Keys_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "federation/server.proto",
 }
 
 func init() { proto.RegisterFile("federation/server.proto", fileDescriptor0) }

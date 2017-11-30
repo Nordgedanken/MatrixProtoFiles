@@ -21,6 +21,11 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -199,6 +204,142 @@ func init() {
 	proto.RegisterType((*LoginRequest)(nil), "matrixProtos_Client.LoginRequest")
 	proto.RegisterType((*LoginResponse)(nil), "matrixProtos_Client.LoginResponse")
 	proto.RegisterType((*LoginError)(nil), "matrixProtos_Client.LoginError")
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for VersionsService service
+
+type VersionsServiceClient interface {
+	Versions(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionsResponse, error)
+}
+
+type versionsServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewVersionsServiceClient(cc *grpc.ClientConn) VersionsServiceClient {
+	return &versionsServiceClient{cc}
+}
+
+func (c *versionsServiceClient) Versions(ctx context.Context, in *VersionRequest, opts ...grpc.CallOption) (*VersionsResponse, error) {
+	out := new(VersionsResponse)
+	err := grpc.Invoke(ctx, "/matrixProtos_Client.VersionsService/Versions", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for VersionsService service
+
+type VersionsServiceServer interface {
+	Versions(context.Context, *VersionRequest) (*VersionsResponse, error)
+}
+
+func RegisterVersionsServiceServer(s *grpc.Server, srv VersionsServiceServer) {
+	s.RegisterService(&_VersionsService_serviceDesc, srv)
+}
+
+func _VersionsService_Versions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VersionsServiceServer).Versions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matrixProtos_Client.VersionsService/Versions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VersionsServiceServer).Versions(ctx, req.(*VersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _VersionsService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "matrixProtos_Client.VersionsService",
+	HandlerType: (*VersionsServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Versions",
+			Handler:    _VersionsService_Versions_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "client/matrix.proto",
+}
+
+// Client API for LoginService service
+
+type LoginServiceClient interface {
+	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+}
+
+type loginServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewLoginServiceClient(cc *grpc.ClientConn) LoginServiceClient {
+	return &loginServiceClient{cc}
+}
+
+func (c *loginServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+	out := new(LoginResponse)
+	err := grpc.Invoke(ctx, "/matrixProtos_Client.LoginService/Login", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for LoginService service
+
+type LoginServiceServer interface {
+	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+}
+
+func RegisterLoginServiceServer(s *grpc.Server, srv LoginServiceServer) {
+	s.RegisterService(&_LoginService_serviceDesc, srv)
+}
+
+func _LoginService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LoginServiceServer).Login(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matrixProtos_Client.LoginService/Login",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LoginServiceServer).Login(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _LoginService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "matrixProtos_Client.LoginService",
+	HandlerType: (*LoginServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Login",
+			Handler:    _LoginService_Login_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "client/matrix.proto",
 }
 
 func init() { proto.RegisterFile("client/matrix.proto", fileDescriptor0) }
