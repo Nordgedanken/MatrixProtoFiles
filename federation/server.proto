@@ -50,3 +50,17 @@ message VerifyKey {
     string type = 1;
     string key = 3;
 }
+
+message PDU {
+    string room_id = 1;
+    string sender = 2;
+    string origin = 3;
+    string event_id = 4;
+    int64 origin_server_ts = 5;
+    string type = 6;
+    string state_key = 7;
+    Content content = 8;
+    repeated Event prev_events = 9;
+    int64 depth = 10;
+    //Todo
+}
